@@ -1,6 +1,6 @@
 import React from 'react';
 import logo from './logo.svg';
-import "./App.css";
+import './App.css';
 
 function App() {
   return (
@@ -11,7 +11,7 @@ function App() {
           Edit <code>src/App.tsx</code> and save to reload.
         </p>
         <a
-          className="m-3 flex flex-row bg-gray-500 text-9xl"
+          className="bottom-2 m-3 flex flex-row bg-gray-500"
           href="https://pwr.com"
           target="_blank"
           rel="noopener noreferrer"

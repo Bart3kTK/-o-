@@ -11,7 +11,7 @@ function App() {
           Edit <code>src/App.tsx</code> and save to reload.
         </p>
         <a
-          className="bottom-2 m-3 flex flex-row bg-gray-500"
+          className="bottom-2"
           href="https://pwr.com"
           target="_blank"
           rel="noopener noreferrer"

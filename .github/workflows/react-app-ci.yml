@@ -1,0 +1,127 @@
+name: React CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - react/**
+  pull_request:
+    paths:
+      - react/**
+  workflow_dispatch:  
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    container:
+      image: node:18
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Cache Node.js modules
+        uses: actions/cache@v3
+        with:
+          path: ./react/weather/node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('react/weather/package-lock.json') }}
+
+      - name: Install dependencies
+        run: npm install
+        working-directory: ./react/weather
+
+  check_format:
+    runs-on: ubuntu-latest
+    needs: setup
+    container:
+      image: node:18
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Cache Node.js modules
+        uses: actions/cache@v3
+        with:
+          path: ./react/weather/node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('react/weather/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Run Prettier for formatting check
+        run: npm run format_check
+        working-directory: ./react/weather
+
+  build:
+    runs-on: ubuntu-latest
+    needs: [setup, check_format]
+    container:
+      image: node:20
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Cache Node.js modules
+        uses: actions/cache@v3
+        with:
+          path: ./react/weather/node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('react/weather/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Build application
+        run: npm run build
+        working-directory: ./react/weather
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: react-build
+          path: ./react/weather/build
+
+  test:
+    runs-on: ubuntu-latest
+    needs: build
+    container:
+      image: node:20
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Cache Node.js modules
+        uses: actions/cache@v3
+        with:
+          path: ./react/weather/node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('react/weather/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Run tests
+        run: echo "Here should be npm run test, but we do not have tests yet"
+        working-directory: ./react/weather
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    container:
+      image: node:20
+    if: github.event_name == 'workflow_dispatch' && success()
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Cache Node.js modules
+        uses: actions/cache@v3
+        with:
+          path: ./react/weather/node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('react/weather/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Restore build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: react-build
+          path: ./react/weather/build
+
+      - run: echo "Here should be deployment script, but we do not have deployment yet"
+        working-directory: ./react/weather

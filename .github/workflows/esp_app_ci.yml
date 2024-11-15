@@ -42,6 +42,7 @@ jobs:
       - name: Build and clang-tidy check
         run: |
             . $HOME/esp_install/esp-idf/export.sh
+            cd ~/esp/weather
             idf.py build
             find . -name "*.c" -o -name "*.h" | xargs clang-tidy -p build
 

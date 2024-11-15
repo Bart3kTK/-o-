@@ -1,8 +1,14 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import { mockApiFunction } from './lib/api';
 
-function App() {
+async function App() {
+
+  const textFromApi = await mockApiFunction();
+
+  console.log(textFromApi);
+
   return (
     <div className="bg-neutral-50">
       <header className="App-header">
@@ -16,7 +22,7 @@ function App() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          ELOOO
+          {/* {textFromApi.finally()} */}
         </a>
       </header>
     </div>

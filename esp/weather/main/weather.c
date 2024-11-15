@@ -4,7 +4,4 @@
 
 #define TAG "WEATHER_APP"
 
-void app_main(void)
-{
-    ESP_LOGI(TAG, "Hello, world!");
-}
+void app_main(void) { ESP_LOGI(TAG, "Hello, world!"); }

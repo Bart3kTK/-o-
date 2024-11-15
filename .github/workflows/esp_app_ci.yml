@@ -9,6 +9,7 @@ on:
         - esp/**
 
 jobs:
+    
     build:
       runs-on: ubuntu-latest
     
@@ -23,3 +24,9 @@ jobs:
           esp_idf_version: v5.2
           target: esp32
           path: 'esp/weather'
+          command: |
+                    'sudo apt-get install -y clang-format clang-tidy
+                    find . -name '*.h' -o -name '*.c' | xargs clang-format -i
+                    git diff --exit-code
+                    idf.py build
+                    find . -name '*.c' | xargs clang-tidy --warnings-as-errors=* -p build/'

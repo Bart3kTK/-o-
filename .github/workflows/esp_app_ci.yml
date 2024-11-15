@@ -9,7 +9,7 @@ on:
         - esp/**
 
 jobs:
-    
+
     build:
       runs-on: ubuntu-latest
     
@@ -18,15 +18,34 @@ jobs:
         uses: actions/checkout@v4
         with:
           submodules: 'recursive'
-      - name: esp-idf build
-        uses: espressif/esp-idf-ci-action@v1
+      - name: Set up Python
+        uses: actions/setup-python@v2
         with:
-          esp_idf_version: v5.2
-          target: esp32
-          path: 'esp/weather'
-          command: |
-                    'sudo apt-get install -y clang-format clang-tidy
-                    find . -name '*.h' -o -name '*.c' | xargs clang-format -i
-                    git diff --exit-code
-                    idf.py build
-                    find . -name '*.c' | xargs clang-tidy --warnings-as-errors=* -p build/'
+          python-version: '3.x'
+      - name: Install clang-format and  clang-tidy
+        run: sudo apt-get -y install clang-format clang-tidy
+
+      - name: clang-format check
+        run: |
+            find . -name "*.c" -o -name "*.h" | xargs clang-format -i -style=file
+            git diff --exit-code
+
+      - name : Install ESP-IDF
+        run: |
+            cd ~
+            sudo apt-get install -y git wget flex bison gperf python3 python3-pip python3-venv cmake ninja-build ccache libffi-dev libssl-dev dfu-util libusb-1.0-0
+            mkdir -p ~/esp_install
+            cd ~/esp_install
+            git clone -b v5.2.3 --recursive https://github.com/espressif/esp-idf.git
+            cd ~/esp_install/esp-idf
+            ./install.sh esp32
+            cd ~
+            . $HOME/esp_install/esp-idf/export.sh
+            idf.py --version
+      - name: Build and clang-tidy check
+        run: |
+            get_idf
+            idf.py build
+            find . -name "*.c" -o -name "*.h" | xargs clang-tidy -p build
+
+

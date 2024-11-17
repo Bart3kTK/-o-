@@ -11,7 +11,6 @@
 #define TAG "HTTPS_TASK"
 
 esp_err_t _http_event_handler(esp_http_client_event_t *evt) {
-<<<<<<< HEAD
   switch (evt->event_id) {
   case HTTP_EVENT_REDIRECT:
     ESP_LOGI(TAG, "HTTP_EVENT_REDIRECT");
@@ -58,7 +57,6 @@ char *prepare_post_data() {
 
 void http_post_task(void *pvParameters) {
 
-<<<<<<< HEAD
   const char *post_data = prepare_post_data();
 
   while (1) {

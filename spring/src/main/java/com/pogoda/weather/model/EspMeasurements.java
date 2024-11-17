@@ -1,5 +1,6 @@
 package com.pogoda.weather.model;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import jakarta.persistence.Entity;
@@ -21,15 +22,26 @@ public class EspMeasurements {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
-    private int pressure1;
-    private int pressure2;
+    private float pressure;
     private int temperature1;
-    private int temperature2; // i tu bedzie wiecej teraz tylko model
+    private int temperature2;
+    private boolean rainDetected;
+    private float humidity;
+    private float lightIntensity;
+    private float gasConcentration;
 
-    public EspMeasurements(int press1, int press2, int temp1, int temp2) {
-        this.pressure1 = press1;
-        this.pressure2 = press2;
-        this.temperature1 = temp1;
-        this.temperature2 = temp2;
+    private LocalDateTime date;
+
+    public EspMeasurements(float pressure, int temperature1, int temperature2, boolean rainDetected, float humidity,
+            float lightIntensity, float gasConcentration) {
+        this.id = UUID.randomUUID().toString();
+        this.pressure = pressure;
+        this.temperature1 = temperature1;
+        this.temperature2 = temperature2;
+        this.rainDetected = rainDetected;
+        this.humidity = humidity;
+        this.lightIntensity = lightIntensity;
+        this.gasConcentration = gasConcentration;
+        this.date = LocalDateTime.now();
     }
 }

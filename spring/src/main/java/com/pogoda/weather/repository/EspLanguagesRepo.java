@@ -1,4 +1,4 @@
-package com.pogoda.weather.data;
+package com.pogoda.weather.repository;
 
 import org.springframework.stereotype.Repository;
 import com.pogoda.weather.interfaces.IEspLanguagesRepository;

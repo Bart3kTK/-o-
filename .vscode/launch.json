@@ -2,13 +2,10 @@
     "configurations": [
         {
             "type": "java",
-            "name": "Spring Boot-WeatherApplication<weather>",
+            "name": "WeatherApplication",
             "request": "launch",
-            "cwd": "${workspaceFolder}",
             "mainClass": "com.pogoda.weather.WeatherApplication",
-            "projectName": "weather",
-            "args": "",
-            "envFile": "${workspaceFolder}/.env"
+            "projectName": "weather"
         }
     ]
 }

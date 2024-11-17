@@ -25,4 +25,5 @@ void app_init_task(void *pvParameter) {
 
 void app_task_create(void) {
   xTaskCreate(&app_init_task, "app_init_task", 4096, NULL, 5, NULL);
+
 }

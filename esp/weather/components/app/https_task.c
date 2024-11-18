@@ -45,21 +45,33 @@ esp_err_t _http_event_handler(esp_http_client_event_t *evt) {
   return ESP_OK;
 }
 
-char *prepare_post_data() {
+void generate_random_data(char *buffer, size_t buffer_size) {
+  float pressure = (float)(rand() % 100) / 10.0;
+  float temperature1 = (float)(rand() % 100) / 10.0;
+  float temperature2 = (float)(rand() % 100) / 10.0;
+  bool rainDetected = rand() % 2;
+  float humidity = (float)(rand() % 100) / 10.0;
+  float lightIntensity = (float)(rand() % 100) / 10.0;
+  float gasConcentration = (float)(rand() % 100) / 10.0;
 
-  char *post_data =
-      "{\n\t\"pressure\": 21.0, \"temperature1\": 37.0, \"temperature2\": 1.0, "
-      "\"rainDetected\": 2.0, \"humidity\": 3.0, \"lightIntensity\": 4.0, "
-      "\"gasConcentration\": 5.0\n}";
-
-  return post_data;
+  snprintf(
+      buffer, buffer_size,
+      "{\n\t\"pressure\": %.1f, \"temperature1\": %.1f, \"temperature2\": "
+      "%.1f, "
+      "\"rainDetected\": %s, \"humidity\": %.1f, \"lightIntensity\": %.1f, "
+      "\"gasConcentration\": %.1f\n}",
+      pressure, temperature1, temperature2, rainDetected ? "true" : "false",
+      humidity, lightIntensity, gasConcentration);
 }
 
 void http_post_task(void *pvParameters) {
 
-  const char *post_data = prepare_post_data();
+  char post_data[256];
 
   while (1) {
+
+    generate_random_data(post_data, sizeof(post_data));
+
     esp_http_client_config_t config = {
         .url = POST_URL,
         .event_handler = _http_event_handler,

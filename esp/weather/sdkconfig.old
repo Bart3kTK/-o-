@@ -346,7 +346,7 @@ CONFIG_PARTITION_TABLE_MD5=y
 #
 # WIFI Configuration
 #
-CONFIG_WIFI_SSID="Alaive-5GHz"
+CONFIG_WIFI_SSID="Alaive-2,4GHz"
 CONFIG_WIFI_PASSWORD="Tomek1972"
 # end of WIFI Configuration
 # end of Weather application configuration

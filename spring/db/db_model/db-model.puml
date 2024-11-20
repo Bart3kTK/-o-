@@ -1,0 +1,64 @@
+@startuml
+
+package UserData {
+    entity Users {
+        + Id : int
+        --
+        Login : varchar
+        PassowordHash : varchar
+    }
+
+    entity Languages {
+        + LangId : int
+        --
+        Lang : varchar
+    }
+
+    
+    entity MeasurementUnits {
+        + UnitId : int
+        --
+        Unit : varchar
+    }
+
+    entity Alerts {
+        + AlertId : int
+        --
+        AlertType : varchar
+    }
+
+
+    entity UserSettings {
+        PreferedUnitId : int 
+        LangId : int
+        UserId : int
+        DarkModeOn : bool
+    }
+
+    entity UserAlerts {
+        + UserId : int
+        + AlertId : int
+    }
+}
+
+
+package WeatherData {
+    entity Measurements {
+        + MeasurementId : int
+        --
+        Temperature : float
+        AirMeasurements
+        WeatherMeasurements
+    }
+}
+
+
+Languages -[hidden]up- MeasurementUnits
+
+Languages::LangId ||--lefto{ UserSettings::LangId
+MeasurementUnits::UnitId ||--lefto{ UserSettings::PreferedUnitId
+Users::Id ||--righto{ UserSettings::UserId
+Alerts::AlertId ||--lefto{ UserAlerts::AlertId
+Users::Id ||--o{ UserAlerts::UserId
+
+@enduml

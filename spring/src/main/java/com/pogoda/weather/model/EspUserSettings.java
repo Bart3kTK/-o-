@@ -1,24 +1,23 @@
 package com.pogoda.weather.model;
 
 import jakarta.persistence.Entity;
-
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Column;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-
 @NoArgsConstructor
 @Getter
 @Setter
-
 public class EspUserSettings {
 
     @Id
-    private int userId;
+    private int userId; // To jest identyfikator, który w rzeczywistości powinien być zarządzany przez relację @ManyToOne z EspUsers
+
     private int preferedUnitId;
     private int lngId;
     private boolean darkModeOn;
@@ -32,7 +31,7 @@ public class EspUserSettings {
     private EspMeasureUnits preferredUnit;
 
     @ManyToOne
-    @JoinColumn(name = "userId", nullable = false)
+    @JoinColumn(name = "userId", nullable = false, insertable = false, updatable = false)
     private EspUsers user;
 
     public EspUserSettings(int userId, int preferedUnitId, int lngId, boolean darkModeOn) {
@@ -41,5 +40,4 @@ public class EspUserSettings {
         this.lngId = lngId;
         this.darkModeOn = darkModeOn;
     }
-
 }

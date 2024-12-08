@@ -1,8 +1,6 @@
 package com.pogoda.weather.model;
 
 import java.io.Serializable;
-
-
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

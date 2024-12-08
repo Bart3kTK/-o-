@@ -24,15 +24,15 @@ public class EspUserSettings {
     private boolean darkModeOn;
 
     @ManyToOne
-    @JoinColumn(name = "lang_id", nullable = false)
+    @JoinColumn(name = "langId", nullable = false)
     private EspLanguages language;
 
     @ManyToOne
-    @JoinColumn(name = "preferred_unit_id", nullable = false)
+    @JoinColumn(name = "preferredUnitId", nullable = false)
     private EspMeasureUnits preferredUnit;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "userId", nullable = false)
     private EspUsers user;
 
     public EspUserSettings(int userId, int preferedUnitId, int lngId, boolean darkModeOn) {

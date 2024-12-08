@@ -26,7 +26,7 @@ public class EspUsers {
 
     @OneToMany(mappedBy = "userId")
     private List<EspUsersAlert> alerts;
-    
+
     @OneToMany(mappedBy = "userId")
     private List<EspUserSettings> settings;
 

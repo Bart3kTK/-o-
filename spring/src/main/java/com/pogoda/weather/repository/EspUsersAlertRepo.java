@@ -1,11 +1,11 @@
-package com.pogoda.weather.data;
+package com.pogoda.weather.repository;
 
 import org.springframework.stereotype.Repository;
 import com.pogoda.weather.interfaces.IEspUsersAlertRepository;
 import com.pogoda.weather.model.EspUsersAlert;
 
 @Repository
-public class EspUsersAlertRepo  {
+public class EspUsersAlertRepo {
 
     private final IEspUsersAlertRepository espUsersAlertRepository;
 

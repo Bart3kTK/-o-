@@ -1,0 +1,17 @@
+menu "Weather application configuration"
+
+    menu "WIFI Configuration"
+        config WIFI_SSID
+            string "WIFI SSID"
+            default "SSID"
+            help
+                "Enter the SSID of the WIFI network you want to connect to."
+            
+        config WIFI_PASSWORD
+            string "WIFI Password"
+            default "PASSWORD"
+            help
+                "Enter the password of the WIFI network you want to connect to."
+    endmenu
+
+endmenu

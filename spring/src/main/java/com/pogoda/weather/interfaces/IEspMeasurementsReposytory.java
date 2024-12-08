@@ -9,9 +9,7 @@ public interface IEspMeasurementsReposytory extends CrudRepository<EspMeasuremen
     @SuppressWarnings("unchecked")
     EspMeasurements save(EspMeasurements espMeasurements);
 
-
-
-    Iterable<EspMeasurements> findByPressure1(int pressure);
+    Iterable<EspMeasurements> findByPressure(int pressure);
 
     Iterable<EspMeasurements> findByTemperature1(int temperature);
 
@@ -22,4 +20,6 @@ public interface IEspMeasurementsReposytory extends CrudRepository<EspMeasuremen
     void delete(EspMeasurements entity);
 
     void deleteAll();
+
+    Optional<EspMeasurements> findTopByOrderByDateDesc();
 }

@@ -1,6 +1,7 @@
 package com.pogoda.weather.model;
 
 import java.io.Serializable;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,12 +14,12 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class EspUsersAlert implements Serializable
-{
+public class EspUsersAlert implements Serializable {
     @Id
     private String userId;
     @Id
     private String alertId;
+
 
     @ManyToOne
     @JoinColumn(name = "userId", nullable = false)
@@ -27,5 +28,6 @@ public class EspUsersAlert implements Serializable
     @ManyToOne
     @JoinColumn(name = "alertId", nullable = false)
     private EspAlerts alert;
+
 
 }

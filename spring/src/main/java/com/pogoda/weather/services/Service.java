@@ -1,6 +1,6 @@
 package com.pogoda.weather.services;
 
-import com.pogoda.weather.data.EspMeasurementsRepo;
+import com.pogoda.weather.repository.EspMeasurementsRepo;
 
 import lombok.AllArgsConstructor;
 

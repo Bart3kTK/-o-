@@ -16,7 +16,7 @@ import lombok.Setter;
 public class EspUserSettings {
 
     @Id
-    private int userId; // To jest identyfikator, który w rzeczywistości powinien być zarządzany przez relację @ManyToOne z EspUsers
+    private int userId; 
 
     private int preferedUnitId;
     private int lngId;

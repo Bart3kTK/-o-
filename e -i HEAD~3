@@ -1,0 +1,19 @@
+[33m0892d66[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mspring_db_conf[m[33m, [m[1;31morigin/spring_db_conf[m[33m)[m Added models, interfaces and repo in spring.
+[33m184ded3[m Added models, interfaces and repo in spring.
+[33me48c7d1[m Dodano modele, interfejsy i repo do spirnga
+[33m72b8d90[m [Spring boot config]
+[33m1850928[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m)[m Esp folder layout (#8)
+[33m73144f3[m Merge pull request #6 from Bart3kTK/esp_format
+[33mfbd1297[m[33m ([m[1;31morigin/esp_format[m[33m)[m [Format and build CI]
+[33m65b0670[m Merge pull request #4 from Bart3kTK/spring_format_ci
+[33med42314[m[33m ([m[1;31morigin/spring_format_ci[m[33m)[m [spring - formatter and CI]
+[33m9a52395[m Merge pull request #3 from Bart3kTK/feature/add-CI-CD-to-react-module
+[33m7c6f3cd[m[33m ([m[1;31morigin/feature/add-CI-CD-to-react-module[m[33m)[m Proper format in app.tsx file
+[33m16c5c76[m [CI/CD] -added CICD for react module -test and deploy jobs are empty because of some issues
+[33m041da55[m [prettier]  -added rules to prettier formater  -added required dependencies  -added scripts to package.json  -from now you can use npm run format and npm run format check
+[33m5e57fe4[m Merge pull request #2 from Bart3kTK/feature/add-prettier-formater
+[33m1ac61b8[m[33m ([m[1;31morigin/feature/add-prettier-formater[m[33m)[m [prettier]  -added scripts to package.json  -from now you can use npm run format and npm run format check
+[33m8a53c9c[m [prettier]  -added rules to prettier formater  -added required dependencies
+[33mef95e0c[m Merge pull request #1 from Bart3kTK/init_branch
+[33me081933[m [project init]
+[33mbd1a2f3[m Initial commit

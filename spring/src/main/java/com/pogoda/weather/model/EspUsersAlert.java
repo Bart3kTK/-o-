@@ -20,4 +20,13 @@ public class EspUsersAlert implements Serializable {
     @Id
     private String alertId;
 
+    @ManyToOne
+    @JoinColumn(name = "userId", nullable = false)
+    private EspUsers user;
+
+    @ManyToOne
+    @JoinColumn(name = "alertId", nullable = false)
+    private EspAlerts alert;
+
+
 }

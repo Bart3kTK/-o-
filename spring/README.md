@@ -1,6 +1,6 @@
 CREATE DATABASE Weather;
 CREATE USER 'WeatherServer'@'localhost' IDENTIFIED BY 't4jn3h4sL0';
-GRANT ALL PRIVILEGES ON Weather.* TO 'WeatherServer'@'localhost';
+GRANT ALL PRIVILEGES ON weather.* TO 'WeatherServer'@'localhost';
 FLUSH PRIVILEGES;
 SHOW GRANTS FOR 'WeatherServer'@'localhost';
 

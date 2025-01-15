@@ -17,6 +17,10 @@ public class EspAlertsRepo {
         return espAlertsRepository.save(espAlerts);
     }
 
+    public Iterable<EspAlerts> getAllAlerts() {
+        return espAlertsRepository.findAll();
+    }
+
     public EspAlerts getAlertByAlertId(String alertId) {
         return espAlertsRepository.findByAlertId(alertId)
                 .orElseThrow(() -> new RuntimeException("Alert not found with alertId: " + alertId));

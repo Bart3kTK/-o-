@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.pogoda.weather.dto.EspAlertsDTO;
 import com.pogoda.weather.dto.WeatherDTO;
+import com.pogoda.weather.model.EspAlerts;
 import com.pogoda.weather.model.EspMeasurements;
 import com.pogoda.weather.repository.EspAlertsRepo;
 import com.pogoda.weather.repository.EspMeasurementsRepo;
@@ -20,6 +21,7 @@ import com.pogoda.weather.services.UserService;
 import com.pogoda.weather.services.WeatherService;
 
 import lombok.AllArgsConstructor;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @AllArgsConstructor
 @RestController
@@ -60,9 +62,25 @@ public class WeatherController {
     }
 
     @GetMapping("/alerts")
-    public List<EspAlertsDTO> getAlerts() {
+    public Iterable<EspAlertsDTO> getAlerts() {
         return alertService.getAllAlerts();
     }
+
+    @PostMapping("/alerts")
+    public ResponseEntity<EspAlerts> addAlert(@RequestBody EspAlertsDTO alert) {
+        System.out.println("Dostalem alert " + alert.toString());
+        return ResponseEntity.ok(alertService.addAlert(alert));
+    }
+
+    // @PutM("/alerts")
+    // public List<EspAlertsDTO> getAlerts() {
+    // return alertService.getAllAlerts();
+    // }
+
+    // @GetMapping("/launguages")
+    // public String getMethodName(@RequestParam String param) {
+    // return new String();
+    // }
 
     @GetMapping("/test")
     public String aja() {

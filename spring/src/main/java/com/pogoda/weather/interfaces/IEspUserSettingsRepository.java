@@ -4,7 +4,7 @@ import org.springframework.data.repository.CrudRepository;
 import com.pogoda.weather.model.EspUserSettings;
 import java.util.Optional;
 
-public interface IEspUserSettingsRepository extends CrudRepository<EspUserSettings, Integer> {
+public interface IEspUserSettingsRepository extends CrudRepository<EspUserSettings, String> {
 
     Optional<EspUserSettings> findByUserId(String userId);
 

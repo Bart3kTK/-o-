@@ -6,7 +6,7 @@ import java.util.Optional;
 
 public interface IEspUserSettingsRepository extends CrudRepository<EspUserSettings, Integer> {
 
-    Optional<EspUserSettings> findByUserId(int userId);
+    Optional<EspUserSettings> findByUserId(String userId);
 
     Iterable<EspUserSettings> findByLngId(int lngId);
 

@@ -29,6 +29,7 @@ public class WeatherController {
 
     @PostMapping("/measurments")
     public ResponseEntity<EspMeasurements> zapis(@RequestBody EspMeasurements espMeasurements) {
+        System.out.println("Dostalem dane " + espMeasurements.toString());
         return ResponseEntity.ok(espDataRepo.saveMeasurements(espMeasurements));
     }
 

@@ -86,7 +86,6 @@ public class WeatherController {
         return ResponseEntity.ok(languagesService.addLanguage(espLanguagesDTO));
     }
 
-
     // jak cos to tu jest measureUNITS a nie measureMENTS!!!!
     @GetMapping("/measureunits")
     public List<EspMeasureUnitsDTO> getMeasureUnits() {
@@ -170,38 +169,38 @@ public class WeatherController {
     }
 
     ////////////////////
-    //    UWAGA       //
-    //    UNIT TO     //
-    //    "imperial"  //
-    //    "metric"    //
-    //                //
-    //    language    //
-    //    "english"   //
-    //    "polish"    //
-    //                //
+    // UWAGA //
+    // UNIT TO //
+    // "imperial" //
+    // "metric" //
+    // //
+    // language //
+    // "english" //
+    // "polish" //
+    // //
     ////////////////////
-    /// 
-    //Ta metoda zwraca ustawienia usera
+    ///
+    // Ta metoda zwraca ustawienia usera
     // GET http://localhost:8080/weather/users/settings?login=Banana
     @GetMapping("users/settings")
     public EspUserSettingsDTO getUserSettings(@RequestParam String login) {
         return userService.getUserSettings(login);
     }
-               
+
     ////////////////////
-    //    UWAGA       //
-    //    UNIT TO     //
-    //    "imperial"  //
-    //    "metric"    //
-    //                //
-    //    language    //
-    //    "english"   //
-    //    "polish"    //
-    //                //
+    // UWAGA //
+    // UNIT TO //
+    // "imperial" //
+    // "metric" //
+    // //
+    // language //
+    // "english" //
+    // "polish" //
+    // //
     ////////////////////
-    /// 
-    /// 
-    //Ta metoda zapisuje ustawienia usera
+    ///
+    ///
+    // Ta metoda zapisuje ustawienia usera
     // POST http://localhost:8080/weather/users/settings?login=Banana
     // {
     // "unit": "Banana",
@@ -209,8 +208,9 @@ public class WeatherController {
     // "darkModeOn": true
     // }
     @PostMapping("users/settings")
-    public ResponseEntity<EspUserSettingsDTO> saveUserSettings(@RequestBody EspUserSettingsDTO userSettingsDTO, @RequestParam String login) {
-        if(!userService.userExists(login)) {
+    public ResponseEntity<EspUserSettingsDTO> saveUserSettings(@RequestBody EspUserSettingsDTO userSettingsDTO,
+            @RequestParam String login) {
+        if (!userService.userExists(login)) {
             return ResponseEntity.badRequest().build();
         }
         return ResponseEntity.ok(userService.setUserSettings(userSettingsDTO, login));

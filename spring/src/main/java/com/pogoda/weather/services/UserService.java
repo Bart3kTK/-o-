@@ -38,13 +38,13 @@ public class UserService {
 
         if (userSettings != null) {
             return new EspUserSettingsDTO("metric", "english", false);
-            }
-
-            EspLanguages language = languagesRepo.getLanguageByLangId(userSettings.getLngId());
-            EspMeasureUnits measureUnit = measureUnitsRepo.getUnitByUnitId(userSettings.getPreferedUnitId());
-            
-            return new EspUserSettingsDTO(measureUnit.getName(), language.getName(), userSettings.isDarkModeOn());
         }
+
+        EspLanguages language = languagesRepo.getLanguageByLangId(userSettings.getLngId());
+        EspMeasureUnits measureUnit = measureUnitsRepo.getUnitByUnitId(userSettings.getPreferedUnitId());
+
+        return new EspUserSettingsDTO(measureUnit.getName(), language.getName(), userSettings.isDarkModeOn());
+    }
 
     public EspUserSettingsDTO setUserSettings(EspUserSettingsDTO userSettingsDTO, String login) {
         EspUsers user = espUsersRepo.getUserByLogin(login);

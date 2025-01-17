@@ -42,4 +42,8 @@ public class EspMeasureUnitsRepo {
     public void deleteUnitByName(String name) {
         espMeasureUnitsRepository.findByName(name).ifPresent(espMeasureUnitsRepository::delete);
     }
+
+    public Iterable<EspMeasureUnits> getAllMeasureUnits() {
+        return espMeasureUnitsRepository.findAll();
+    }
 }

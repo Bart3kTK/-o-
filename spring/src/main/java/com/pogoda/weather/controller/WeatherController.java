@@ -132,5 +132,4 @@ public class WeatherController {
         }
         return ResponseEntity.ok(userService.changePassword(user.getLogin(), user.getPassword()));
     }
-
 }

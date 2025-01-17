@@ -18,7 +18,7 @@ public class AlertService {
         this.espAlertsRepo = espAlertsRepo;
     }
 
-    public List<EspAlertsDTO> getAllAlerts() {
+    public Iterable<EspAlertsDTO> getAllAlerts() {
         Iterable<EspAlerts> alerts = espAlertsRepo.getAllAlerts();
 
         List<EspAlertsDTO> alertsDTO = new ArrayList<>();
@@ -30,6 +30,12 @@ public class AlertService {
         });
 
         return alertsDTO;
+    }
+
+    public EspAlerts addAlert(EspAlertsDTO alert) {
+        EspAlerts newAlert = new EspAlerts();
+        newAlert.setAlertType(alert.getAlertType());
+        return espAlertsRepo.saveAlert(newAlert);
     }
 
 }

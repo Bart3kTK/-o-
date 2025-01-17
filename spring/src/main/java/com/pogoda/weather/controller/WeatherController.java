@@ -16,7 +16,10 @@ import com.pogoda.weather.dto.EspMeasureUnitsDTO;
 import com.pogoda.weather.dto.WeatherDTO;
 import com.pogoda.weather.model.EspLanguages;
 import com.pogoda.weather.model.EspMeasureUnits;
+import com.pogoda.weather.dto.EspUserDTO;
+import com.pogoda.weather.model.EspAlerts;
 import com.pogoda.weather.model.EspMeasurements;
+import com.pogoda.weather.model.EspUsers;
 import com.pogoda.weather.repository.EspAlertsRepo;
 import com.pogoda.weather.repository.EspMeasurementsRepo;
 import com.pogoda.weather.services.AlertService;
@@ -73,7 +76,7 @@ public class WeatherController {
     }
 
     @GetMapping("/alerts")
-    public List<EspAlertsDTO> getAlerts() {
+    public Iterable<EspAlertsDTO> getAlerts() {
         return alertService.getAllAlerts();
     }
 
@@ -102,8 +105,68 @@ public class WeatherController {
         return "cos tam";
     }
 
-    @PostMapping("/test")
-    public void ajaaPOST() {
-        System.out.println("DOSTALEM");
+    // Tak wyglada dodawanie alertu
+    // POST http://localhost:8080/weather/alerts
+    // {
+    // "alertType": "Banana"
+    // }
+    @PostMapping("/alerts")
+    public ResponseEntity<EspAlerts> addAlert(@RequestBody EspAlertsDTO alert) {
+        System.out.println("Dostalem alert " + alert.toString());
+        return ResponseEntity.ok(alertService.addAlert(alert));
+    }
+
+    // Login jest unikatowy aktualnie!!!
+    // false gdy haslo sie nie zgadza albo login nie istnieje
+    // GET http://localhost:8080/weather/users/password_check?login=Banana&password=123
+    @GetMapping("/users/password_check")
+    public boolean passwordCheck(@RequestParam String login, @RequestParam String password) {
+        return userService.passwordCheck(login, password);
+    }
+
+    // Tak wyglada login check
+    // GET http://localhost:8080/weather/users/login_check?login=Banana
+    @GetMapping("/users/login_check")
+    public boolean loginCheck(@RequestParam String login) {
+        return userService.userExists(login);
+    }
+
+    // Tak wyglada dodawanie usera
+    // POST http://localhost:8080/weather/users/add
+    // {
+    // "login": "Banana",
+    // "password": "123"
+    // }
+    @PostMapping("/users/add")
+    public ResponseEntity<EspUserDTO> postMethodName(@RequestBody EspUserDTO user) {
+        System.out.println("Dostalem usera " + user.toString());
+        if (userService.userExists(user.getLogin())) {
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok(userService.addUser(user.getLogin(), user.getPassword()));
+    }
+
+    // Tak wyglada usuwanie usera
+    // DELETE http://localhost:8080/weather/users/delete?login=Banana
+    @GetMapping("/users/delete")
+    public ResponseEntity<EspUserDTO> deleteUser(@RequestParam String login) {
+        if (!userService.userExists(login)) {
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok(userService.deleteUser(login));
+    }
+
+    // Tak wyglada zmiana hasla
+    // PUT http://localhost:8080/weather/users/change_password
+    // {
+    // "login": "Banana",
+    // "password": "123"
+    // }
+    @PostMapping("/users/change_password")
+    public ResponseEntity<EspUserDTO> changePassword(@RequestBody EspUserDTO user) {
+        if (!userService.userExists(user.getLogin())) {
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok(userService.changePassword(user.getLogin(), user.getPassword()));
     }
 }

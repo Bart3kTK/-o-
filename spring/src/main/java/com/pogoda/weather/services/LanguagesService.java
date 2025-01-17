@@ -10,8 +10,6 @@ import com.pogoda.weather.dto.EspLanguagesDTO;
 import com.pogoda.weather.model.EspLanguages;
 import com.pogoda.weather.repository.EspLanguagesRepo;
 
-
-
 @Service
 public class LanguagesService {
 
@@ -33,7 +31,7 @@ public class LanguagesService {
         });
 
         return languagesDTO;
-        
+
     }
 
     public EspLanguages addLanguage(EspLanguagesDTO espLanguagesDTO) {

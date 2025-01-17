@@ -28,7 +28,6 @@ import com.pogoda.weather.services.WeatherService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.RequestParam;
 
-
 @AllArgsConstructor
 @RestController
 @RequestMapping("/weather")
@@ -46,7 +45,7 @@ public class WeatherController {
     @Autowired
     private final LanguagesService languagesService;
 
-    @Autowired  
+    @Autowired
     private final MeasurementsUnitsService measurementsUnitsService;
 
     @Autowired
@@ -97,7 +96,6 @@ public class WeatherController {
     public ResponseEntity<EspMeasureUnits> saveMeasureUnit(@RequestBody EspMeasureUnitsDTO espMeasureUnitsDTO) {
         return ResponseEntity.ok(measurementsUnitsService.addMeasureUnit(espMeasureUnitsDTO));
     }
-    
 
     @GetMapping("/test")
     public String aja() {

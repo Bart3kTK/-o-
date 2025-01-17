@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class EspUserDTO {
-    private String login;
-    private String password;
+public class EspMeasureUnitsDTO {
+    private String name;
 }

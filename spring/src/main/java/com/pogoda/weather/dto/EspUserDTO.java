@@ -8,6 +8,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class EspUserDTO {
-    private String id;
     private String login;
+    private String password;
 }

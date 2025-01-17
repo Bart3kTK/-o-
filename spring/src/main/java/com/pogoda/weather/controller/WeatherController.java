@@ -103,6 +103,31 @@ public class WeatherController {
         return alertService.getAllAlerts();
     }
 
+    @GetMapping("/languages")
+    public List<EspLanguagesDTO> getLanguages() {
+        return languagesService.getAllLanguages();
+    }
+
+    @PostMapping("/languages")
+    public ResponseEntity<EspLanguages> saveLanguage(@RequestBody EspLanguagesDTO espLanguagesDTO) {
+        return ResponseEntity.ok(languagesService.addLanguage(espLanguagesDTO));
+    }
+
+    @GetMapping("/measureunits")
+    public List<EspMeasureUnitsDTO> getMeasureUnits() {
+        return measurementsUnitsService.getAllMeasureUnits();
+    }
+
+    @PostMapping("/measureunits")
+    public ResponseEntity<EspMeasureUnits> saveMeasureUnit(@RequestBody EspMeasureUnitsDTO espMeasureUnitsDTO) {
+        return ResponseEntity.ok(measurementsUnitsService.addMeasureUnit(espMeasureUnitsDTO));
+    }
+
+    @GetMapping("/test")
+    public String aja() {
+        return "cos tam";
+    }
+
     // Tak wyglada dodawanie alertu
     // POST http://localhost:8080/weather/alerts
     // {

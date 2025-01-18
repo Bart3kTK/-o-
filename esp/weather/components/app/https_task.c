@@ -7,7 +7,6 @@
 #define POST_REQUEST_DELAY_MS 20000
 
 #define POST_URL "http://192.168.232.163:8080/weather/measurments"
-
 #define TAG "HTTPS_TASK"
 
 esp_err_t _http_event_handler(esp_http_client_event_t *evt) {
@@ -53,6 +52,7 @@ void generate_random_data(char *buffer, size_t buffer_size) {
   float humidity = (float)(rand() % 100) / 10.0;
   float lightIntensity = (float)(rand() % 100) / 10.0;
   float gasConcentration = (float)(rand() % 100) / 10.0;
+
   printf("{\n\t\"pressure\": %.1f,\n\t\"temperature1\": "
          "%.1f,\n\t\"temperature2\": "
          "%.1f,\n\t"
@@ -89,6 +89,7 @@ void http_post_task(void *pvParameters) {
 
     esp_http_client_set_url(client, POST_URL);
     esp_http_client_set_method(client, HTTP_METHOD_POST);
+
     esp_http_client_set_header(client, "Content-Type", "application/json");
     esp_http_client_set_post_field(client, post_data, strlen(post_data));
 

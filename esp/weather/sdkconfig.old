@@ -1,7 +1,6 @@
 #
 # Automatically generated file. DO NOT EDIT.
-
-# Espressif IoT Development Framework (ESP-IDF)  Project Configuration
+# Espressif IoT Development Framework (ESP-IDF) 5.1.2 Project Configuration
 #
 CONFIG_SOC_BROWNOUT_RESET_SUPPORTED="Not determined"
 CONFIG_SOC_TWAI_BRP_DIV_SUPPORTED="Not determined"
@@ -347,14 +346,27 @@ CONFIG_PARTITION_TABLE_MD5=y
 #
 # WIFI Configuration
 #
-<<<<<<< HEAD
-CONFIG_WIFI_SSID="Alaive-2,4GHz"
-CONFIG_WIFI_PASSWORD="Tomek1972"
-=======
-CONFIG_WIFI_SSID="iPhone Bartek"
-CONFIG_WIFI_PASSWORD="88888888"
->>>>>>> 41e2bb2b551f86a4887161368b0eb0cb43df1097
+CONFIG_WIFI_SSID="Żydospot rzywe suki"
+CONFIG_WIFI_PASSWORD="amerykakurwatak"
 # end of WIFI Configuration
+
+#
+# I2C Configuration
+#
+CONFIG_I2C_SDA=25
+CONFIG_I2C_SCL=26
+CONFIG_I2C_MASTER_PORT_NUM=0
+CONFIG_I2C_MASTER_FREQUENCY=400000
+CONFIG_I2C_MASTER_TIMEOUT_MS=1000
+# end of I2C Configuration
+
+#
+# ADC configuration
+#
+CONFIG_A_VBAT_CHANNEL=0
+CONFIG_A_IGNIT_CONT_1_CHANNEL=6
+CONFIG_A_IGNIT_CONT_2_CHANNEL=7
+# end of ADC configuration
 # end of Weather application configuration
 
 #
@@ -1623,7 +1635,6 @@ CONFIG_WIFI_PROV_STA_ALL_CHANNEL_SCAN=y
 # end of Component config
 
 # CONFIG_IDF_EXPERIMENTAL_FEATURES is not set
-<<<<<<< HEAD
 
 # Deprecated options for backward compatibility
 # CONFIG_APP_BUILD_TYPE_ELF_RAM is not set
@@ -1833,5 +1844,3 @@ CONFIG_SUPPRESS_SELECT_DEBUG_OUTPUT=y
 CONFIG_SUPPORT_TERMIOS=y
 CONFIG_SEMIHOSTFS_MAX_MOUNT_POINTS=1
 # End of deprecated options
-=======
->>>>>>> 41e2bb2b551f86a4887161368b0eb0cb43df1097

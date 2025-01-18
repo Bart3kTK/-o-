@@ -1,3 +1,4 @@
+#include "hardware_config.h"
 #include "https_task.h"
 #include "i2c_config.h"
 #include "network_config.h"
@@ -14,8 +15,12 @@ void app_init_task(void *pvParameter) {
     ESP_LOGE(TAG, "Failed to initialize wifi.");
   }
 
-  if (i2c_init() != ESP_OK) {
+  if (i2cdev_init() != ESP_OK) {
     ESP_LOGE(TAG, "Failed to initialize I2C.");
+  }
+
+  if (hardware_init() != ESP_OK) {
+    ESP_LOGE(TAG, "Failed to initialize hardware.");
   }
 
   http_post_task_create();

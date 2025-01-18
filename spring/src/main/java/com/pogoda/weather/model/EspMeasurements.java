@@ -44,4 +44,9 @@ public class EspMeasurements {
         this.gasConcentration = gasConcentration;
         this.date = LocalDateTime.now();
     }
+
+    @Override
+    public String toString() {
+        return "Pressure: " + pressure + " temperature1 " + temperature1 + " temperature2 " + temperature2;
+    }
 }

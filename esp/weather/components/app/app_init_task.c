@@ -1,4 +1,5 @@
 #include "https_task.h"
+#include "i2c_config.h"
 #include "network_config.h"
 
 #include "esp_event.h"
@@ -11,7 +12,10 @@ void app_init_task(void *pvParameter) {
 
   if (wifi_init() != ESP_OK) {
     ESP_LOGE(TAG, "Failed to initialize wifi.");
-    vTaskDelete(NULL);
+  }
+
+  if (i2c_init() != ESP_OK) {
+    ESP_LOGE(TAG, "Failed to initialize I2C.");
   }
 
   http_post_task_create();

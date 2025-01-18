@@ -27,6 +27,10 @@ public class EspLanguagesRepo {
                 .orElseThrow(() -> new RuntimeException("Language not found with name: " + name));
     }
 
+    public Iterable<EspLanguages> getAllLanguages() {
+        return espLanguagesRepository.findAll();
+    }
+
     public boolean languageExistsByLangId(String langId) {
         return espLanguagesRepository.existsByLangId(langId);
     }

@@ -6,8 +6,7 @@
 
 #define POST_REQUEST_DELAY_MS 20000
 
-#define POST_URL "http://localhost:8080/weather/masurements"
-
+#define POST_URL "http://192.168.232.163:8080/weather/measurments"
 #define TAG "HTTPS_TASK"
 
 esp_err_t _http_event_handler(esp_http_client_event_t *evt) {
@@ -54,14 +53,24 @@ void generate_random_data(char *buffer, size_t buffer_size) {
   float lightIntensity = (float)(rand() % 100) / 10.0;
   float gasConcentration = (float)(rand() % 100) / 10.0;
 
-  snprintf(
-      buffer, buffer_size,
-      "{\n\t\"pressure\": %.1f, \"temperature1\": %.1f, \"temperature2\": "
-      "%.1f, "
-      "\"rainDetected\": %s, \"humidity\": %.1f, \"lightIntensity\": %.1f, "
-      "\"gasConcentration\": %.1f\n}",
-      pressure, temperature1, temperature2, rainDetected ? "true" : "false",
-      humidity, lightIntensity, gasConcentration);
+  printf("{\n\t\"pressure\": %.1f,\n\t\"temperature1\": "
+         "%.1f,\n\t\"temperature2\": "
+         "%.1f,\n\t"
+         "\"rainDetected\": %s,\n\t\"humidity\": %.1f,\n\t\"lightIntensity\": "
+         "%.1f,\n\t"
+         "\"gasConcentration\": %.1f\n}",
+         pressure, temperature1, temperature2, rainDetected ? "true" : "false",
+         humidity, lightIntensity, gasConcentration);
+  snprintf(buffer, buffer_size,
+           "{\n\t\"pressure\": %.1f,\n\t\"temperature1\": "
+           "%.1f,\n\t\"temperature2\": "
+           "%.1f,\n\t"
+           "\"rainDetected\": %s,\n\t\"humidity\": "
+           "%.1f,\n\t\"lightIntensity\": %.1f,\n\t"
+           "\"gasConcentration\": %.1f\n}",
+           pressure, temperature1, temperature2,
+           rainDetected ? "true" : "false", humidity, lightIntensity,
+           gasConcentration);
 }
 
 void http_post_task(void *pvParameters) {
@@ -80,6 +89,8 @@ void http_post_task(void *pvParameters) {
 
     esp_http_client_set_url(client, POST_URL);
     esp_http_client_set_method(client, HTTP_METHOD_POST);
+
+    esp_http_client_set_header(client, "Content-Type", "application/json");
     esp_http_client_set_post_field(client, post_data, strlen(post_data));
 
     esp_err_t err = esp_http_client_perform(client);

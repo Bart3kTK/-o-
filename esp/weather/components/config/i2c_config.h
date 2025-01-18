@@ -23,7 +23,7 @@
     .i2c_init_flag = false,                                                    \
   }
 
-typedef struct {
+    typedef struct {
   i2c_port_t port;
   i2c_cmd_handle_t *cmd;
   gpio_num_t sda;

@@ -1,6 +1,7 @@
 #include "https_task.h"
 #include "i2c_config.h"
 #include "network_config.h"
+#include "i2c_config.h"
 
 #include "esp_event.h"
 #include "esp_log.h"

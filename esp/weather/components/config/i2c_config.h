@@ -15,6 +15,7 @@
 #include "freertos/task.h"
 #include "sdkconfig.h"
 
+<<<<<<< HEAD
 #define I2C_DEFAULT_CONFIG()                                                   \
   {                                                                            \
     .port = CONFIG_I2C_MASTER_PORT_NUM, .sda = CONFIG_I2C_SDA,                 \

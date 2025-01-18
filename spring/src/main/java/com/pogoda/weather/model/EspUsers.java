@@ -23,6 +23,6 @@ public class EspUsers {
 
     public EspUsers(String login, String passwordHash) {
         this.login = login;
-        this.passwordHash = passwordHash;
+        this.passwordHash = passwordHash; // aktualnie jest srtingiem, ale powinno byc hashowane
     }
 }

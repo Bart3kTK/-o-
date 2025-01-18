@@ -1,5 +1,7 @@
 package com.pogoda.weather.repository;
 
+import java.util.Optional;
+
 import org.springframework.stereotype.Repository;
 import com.pogoda.weather.interfaces.IEspUserSettingsRepository;
 import com.pogoda.weather.model.EspUserSettings;
@@ -17,12 +19,12 @@ public class EspUserSettingsRepo {
         return espUserSettingsRepository.save(espUserSettings);
     }
 
-    public EspUserSettings getUserSettings(int userId) {
+    public EspUserSettings getUserSettings(String userId) {
         return espUserSettingsRepository.findByUserId(userId)
                 .orElseThrow(() -> new RuntimeException("User settings not found for userId: " + userId));
     }
 
-    public void deleteUserSettings(int userId) {
+    public void deleteUserSettings(String userId) {
         espUserSettingsRepository.findByUserId(userId).ifPresent(espUserSettingsRepository::delete);
     }
 

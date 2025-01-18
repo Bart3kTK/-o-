@@ -4,6 +4,9 @@
 #include "freertos/task.h"
 #include <string.h>
 
+#include "https_task.h"
+#include "measures_task.h"
+
 #define POST_REQUEST_DELAY_MS 20000
 
 #define POST_URL "http://192.168.232.163:8080/weather/measurments"
@@ -73,13 +76,35 @@ void generate_random_data(char *buffer, size_t buffer_size) {
            gasConcentration);
 }
 
+void get_sensor_data(char *buffer, size_t buffer_size) {
+
+  measures_data measures = get_measures();
+
+  float pressure = 0.0;
+  float temperature2 = 0.0;
+  bool rainDetected = false;
+  float lightIntensity = 0.0;
+  float gasConcentration = 0.0;
+
+  snprintf(buffer, buffer_size,
+           "{\n\t\"pressure\": %.1f,\n\t\"temperature1\": "
+           "%d,\n\t\"temperature2\": "
+           "%.1f,\n\t"
+           "\"rainDetected\": %s,\n\t\"humidity\": "
+           "%d,\n\t\"lightIntensity\": %.1f,\n\t"
+           "\"gasConcentration\": %.1f\n}",
+           pressure, measures.temperature, temperature2,
+           rainDetected ? "true" : "false", measures.humidity, lightIntensity,
+           gasConcentration);
+}
+
 void http_post_task(void *pvParameters) {
 
   char post_data[256];
 
   while (1) {
 
-    generate_random_data(post_data, sizeof(post_data));
+    get_sensor_data(post_data, sizeof(post_data));
 
     esp_http_client_config_t config = {
         .url = POST_URL,

@@ -68,4 +68,12 @@ menu "Weather application configuration"
 
     endmenu
 
+    menu "DHT11 Configuration"
+        config DHT11_PIN
+            int "DHT11 GPIO Pin"
+            default 34
+            help
+                "Enter the GPIO pin number for the DHT11 sensor."
+    endmenu
+    
 endmenu

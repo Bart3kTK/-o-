@@ -80,11 +80,11 @@ void get_sensor_data(char *buffer, size_t buffer_size) {
 
   measures_data measures = get_measures();
 
-  float pressure = 0.0;
-  float temperature2 = 0.0;
-  bool rainDetected = false;
-  float lightIntensity = 0.0;
-  float gasConcentration = 0.0;
+  // float pressure = 0.0;
+  // float temperature2 = 0.0;
+  // bool rainDetected = false;
+  // float lightIntensity = 0.0;
+  // float gasConcentration = 0.0;
 
   snprintf(buffer, buffer_size,
            "{\n\t\"pressure\": %.1f,\n\t\"temperature1\": "
@@ -93,9 +93,10 @@ void get_sensor_data(char *buffer, size_t buffer_size) {
            "\"rainDetected\": %s,\n\t\"humidity\": "
            "%d,\n\t\"lightIntensity\": %.1f,\n\t"
            "\"gasConcentration\": %.1f\n}",
-           pressure, measures.temperature, temperature2,
-           rainDetected ? "true" : "false", measures.humidity, lightIntensity,
-           gasConcentration);
+           (float)measures.pressure / 100.0, measures.temperature1,
+           measures.temperature2, measures.rain_detected ? "true" : "false",
+           measures.humidity, (float)measures.light_level / 65535.0,
+           measures.gas_concentration);
 }
 
 void http_post_task(void *pvParameters) {

@@ -6,11 +6,18 @@
 #include "freertos/task.h"
 
 typedef struct measures_data {
-  int temperature;
+  int temperature1;
+  float temperature2;
   int humidity;
+  uint16_t light_level;
+  uint32_t pressure;
+  bool rain_detected;
+  float gas_concentration;
 } measures_data;
 
 measures_data get_measures(void);
+
+void set_measures(measures_data *data);
 
 void measures_task(void *pvParameters);
 

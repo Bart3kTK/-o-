@@ -228,4 +228,22 @@ public class WeatherController {
         }
         return ResponseEntity.ok(userService.setUserSettings(userSettingsDTO, login));
     }
+
+    @GetMapping("/data/history")
+    public Iterable<WeatherDTO> getWeatherHistory() {
+        return weatherService.getWeatherHistory();
+    }
+
+    @GetMapping("/data/history/{year}/{month}/{day}")
+    public Iterable<WeatherDTO> getWeatherByDate(@PathVariable int year, @PathVariable int month,
+            @PathVariable int day) {
+        return weatherService.getWeatherByDate(year, month, day);
+    }
+
+    @GetMapping("/data/average/{year}/{month}/{day}")
+    public WeatherDTO getAverangeMeasurmentsFromDay(@PathVariable int year, @PathVariable int month,
+            @PathVariable int day) {
+        return weatherService.getAverangeMeasurmentsFromDay(year, month, day);
+    }
+
 }

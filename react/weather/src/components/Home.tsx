@@ -12,7 +12,8 @@ interface WeatherDTO {
 }
 
 const HomeContainer = styled.div<{ backgroundImage: string }>`
-  background-image: url(${(props) => props.backgroundImage}); /* Obrazek jako tło */
+  background-image: url(${(props) =>
+    props.backgroundImage}); /* Obrazek jako tło */
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -23,7 +24,6 @@ const HomeContainer = styled.div<{ backgroundImage: string }>`
   width: 100%;
   text-align: center;
 `;
-
 
 const Temperature = styled.h2<{ color: string }>`
   font-size: 100px;

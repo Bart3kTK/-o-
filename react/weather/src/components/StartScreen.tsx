@@ -62,7 +62,9 @@ const validationSchema = Yup.object({
   password: Yup.string().required('Password is required'),
 });
 
-const StartComponent: React.FC<{ backgroundImage: string }> = ({ backgroundImage }) => {
+const StartComponent: React.FC<{ backgroundImage: string }> = ({
+  backgroundImage,
+}) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
@@ -70,14 +72,20 @@ const StartComponent: React.FC<{ backgroundImage: string }> = ({ backgroundImage
   const handleLogin = async (values: { login: string; password: string }) => {
     setLoading(true);
     try {
-      const response = await fetch('http://localhost:8080/weather/users/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ login: values.login, password: values.password }),
-        credentials: 'include',
-      });
+      const response = await fetch(
+        'http://localhost:8080/weather/users/login',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            login: values.login,
+            password: values.password,
+          }),
+          credentials: 'include',
+        }
+      );
 
       if (!response.ok) {
         if (response.status === 401) {

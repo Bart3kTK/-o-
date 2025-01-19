@@ -346,8 +346,18 @@ CONFIG_PARTITION_TABLE_MD5=y
 #
 # WIFI Configuration
 #
+<<<<<<< HEAD
 CONFIG_WIFI_SSID="Żydospot rzywe suki"
 CONFIG_WIFI_PASSWORD="amerykakurwatak"
+=======
+<<<<<<< HEAD
+CONFIG_WIFI_SSID="Alaive-2,4GHz"
+CONFIG_WIFI_PASSWORD="Tomek1972"
+=======
+CONFIG_WIFI_SSID="iPhone Bartek"
+CONFIG_WIFI_PASSWORD="88888888"
+>>>>>>> 41e2bb2b551f86a4887161368b0eb0cb43df1097
+>>>>>>> c2f6509ea483606411b8b35033e27cf366c54152
 # end of WIFI Configuration
 
 #
@@ -1635,6 +1645,10 @@ CONFIG_WIFI_PROV_STA_ALL_CHANNEL_SCAN=y
 # end of Component config
 
 # CONFIG_IDF_EXPERIMENTAL_FEATURES is not set
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> c2f6509ea483606411b8b35033e27cf366c54152
 
 # Deprecated options for backward compatibility
 # CONFIG_APP_BUILD_TYPE_ELF_RAM is not set
@@ -1844,3 +1858,8 @@ CONFIG_SUPPRESS_SELECT_DEBUG_OUTPUT=y
 CONFIG_SUPPORT_TERMIOS=y
 CONFIG_SEMIHOSTFS_MAX_MOUNT_POINTS=1
 # End of deprecated options
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> 41e2bb2b551f86a4887161368b0eb0cb43df1097
+>>>>>>> c2f6509ea483606411b8b35033e27cf366c54152

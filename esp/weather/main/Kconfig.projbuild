@@ -41,7 +41,7 @@ menu "Weather application configuration"
         
         config  I2C_MASTER_TIMEOUT_MS
             int "I2C Master Timeout (ms)"
-            default 25
+            default 1000
             help
                 "Enter the I2C master timeout in milliseconds."
     endmenu

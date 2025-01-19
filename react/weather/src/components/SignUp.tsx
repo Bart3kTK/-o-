@@ -169,7 +169,7 @@ const SignupComponent: React.FC<{ backgroundImage: string }> = ({
             />
             <ErrorMessage name="confirmPassword" component={ErrorText} />
             <Button type="submit" disabled={isSubmitting}>
-              Sign Up
+              {loading ? 'Logging in...' : 'Sign up'}
             </Button>
             {error && <ErrorText>{error}</ErrorText>}
           </SignupForm>

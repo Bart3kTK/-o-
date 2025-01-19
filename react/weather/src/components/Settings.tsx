@@ -17,15 +17,6 @@ const SettingsContainer = styled.div`
   text-align: center;
 `;
 
-const SettingsInput = styled.input`
-  padding: 10px;
-  font-size: 16px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  margin-bottom: 10px;
-  width: 100%;
-`;
-
 const Select = styled.select`
   padding: 10px;
   font-size: 16px;
@@ -54,11 +45,6 @@ const SaveButton = styled.button`
   &:hover {
     background: rgba(255, 255, 255, 0.2);
   }
-`;
-
-const ErrorMessage = styled.div`
-  color: red;
-  margin-top: 10px;
 `;
 
 const Settings: React.FC = () => {

@@ -12,29 +12,31 @@ interface WeatherDTO {
 }
 
 const HomeContainer = styled.div<{ backgroundImage: string }>`
-  background: url(${(props) => props.backgroundImage}) no-repeat center
-    center/cover;
+  background-image: url(${(props) =>
+    props.backgroundImage}); /* Obrazek jako tło */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-  max-width: 600px;
+  max-width: 1000px;
   width: 100%;
   text-align: center;
-  background-size: cover;
 `;
 
 const Temperature = styled.h2<{ color: string }>`
-  font-size: 48px;
+  font-size: 100px;
   margin: 10px 0;
   color: ${(props) => props.color};
 `;
 
 const WeatherDetails = styled.div`
-  margin-top: 20px;
+  margin-top: 40px;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
-  text-align: left;
+  justify-content: center;
+  text-align: center;
 `;
 
 const DetailItem = styled.div`
@@ -42,6 +44,8 @@ const DetailItem = styled.div`
   padding: 10px;
   background: #f0f0f0;
   border-radius: 8px;
+  height: 100px;
+  font-size: 25px;
   margin: 5px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 `;

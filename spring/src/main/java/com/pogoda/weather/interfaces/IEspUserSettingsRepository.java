@@ -8,7 +8,7 @@ public interface IEspUserSettingsRepository extends CrudRepository<EspUserSettin
 
     Optional<EspUserSettings> findByUserId(String userId);
 
-    Iterable<EspUserSettings> findByLngId(int lngId);
+    Iterable<EspUserSettings> findByLngId(String lngId);
 
     Iterable<EspUserSettings> findByDarkModeOn(boolean darkModeOn);
 }

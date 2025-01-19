@@ -28,7 +28,7 @@ public class EspUserSettingsRepo {
         espUserSettingsRepository.findByUserId(userId).ifPresent(espUserSettingsRepository::delete);
     }
 
-    public Iterable<EspUserSettings> getUserSettingsByLngId(int lngId) {
+    public Iterable<EspUserSettings> getUserSettingsByLngId(String lngId) {
         return espUserSettingsRepository.findByLngId(lngId);
     }
 

@@ -18,6 +18,7 @@ import com.pogoda.weather.dto.WeatherDTO;
 import com.pogoda.weather.model.EspLanguages;
 import com.pogoda.weather.model.EspMeasureUnits;
 import com.pogoda.weather.dto.EspUserDTO;
+import com.pogoda.weather.dto.EspUserSettingsDTO;
 import com.pogoda.weather.model.EspAlerts;
 import com.pogoda.weather.model.EspMeasurements;
 import com.pogoda.weather.repository.EspMeasurementsRepo;
@@ -74,11 +75,6 @@ public class WeatherController {
         }
     }
 
-    @GetMapping("/alerts")
-    public Iterable<EspAlertsDTO> getAlerts() {
-        return alertService.getAllAlerts();
-    }
-
     @GetMapping("/languages")
     public List<EspLanguagesDTO> getLanguages() {
         return languagesService.getAllLanguages();
@@ -89,19 +85,21 @@ public class WeatherController {
         return ResponseEntity.ok(languagesService.addLanguage(espLanguagesDTO));
     }
 
+    // jak cos to tu jest measureUNITS a nie measureMENTS!!!!
     @GetMapping("/measureunits")
     public List<EspMeasureUnitsDTO> getMeasureUnits() {
         return measurementsUnitsService.getAllMeasureUnits();
     }
 
+    // jak cos to tu jest measureUNITS a nie measureMENTS!!!!
     @PostMapping("/measureunits")
     public ResponseEntity<EspMeasureUnits> saveMeasureUnit(@RequestBody EspMeasureUnitsDTO espMeasureUnitsDTO) {
         return ResponseEntity.ok(measurementsUnitsService.addMeasureUnit(espMeasureUnitsDTO));
     }
 
-    @GetMapping("/test")
-    public String aja() {
-        return "cos tam";
+    @GetMapping("/alerts")
+    public Iterable<EspAlertsDTO> getAlerts() {
+        return alertService.getAllAlerts();
     }
 
     // Tak wyglada dodawanie alertu
@@ -182,5 +180,52 @@ public class WeatherController {
         String token = userService.generateToken(user.getLogin());
         return ResponseEntity.ok(token);
     }
+  
+    ////////////////////
+    // UWAGA //
+    // UNIT TO //
+    // "imperial" //
+    // "metric" //
+    // //
+    // language //
+    // "english" //
+    // "polish" //
+    // //
+    ////////////////////
+    ///
+    // Ta metoda zwraca ustawienia usera
+    // GET http://localhost:8080/weather/users/settings?login=Banana
+    @GetMapping("users/settings")
+    public EspUserSettingsDTO getUserSettings(@RequestParam String login) {
+        return userService.getUserSettings(login);
+    }
 
+    ////////////////////
+    // UWAGA //
+    // UNIT TO //
+    // "imperial" //
+    // "metric" //
+    // //
+    // language //
+    // "english" //
+    // "polish" //
+    // //
+    ////////////////////
+    ///
+    ///
+    // Ta metoda zapisuje ustawienia usera
+    // POST http://localhost:8080/weather/users/settings?login=Banana
+    // {
+    // "unit": "Banana",
+    // "language": "Banana",
+    // "darkModeOn": true
+    // }
+    @PostMapping("users/settings")
+    public ResponseEntity<EspUserSettingsDTO> saveUserSettings(@RequestBody EspUserSettingsDTO userSettingsDTO,
+            @RequestParam String login) {
+        if (!userService.userExists(login)) {
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok(userService.setUserSettings(userSettingsDTO, login));
+    }
 }

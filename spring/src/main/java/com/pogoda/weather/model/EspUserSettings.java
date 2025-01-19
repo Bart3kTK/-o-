@@ -16,11 +16,11 @@ public class EspUserSettings {
 
     @Id
     private String userId;
-    private int preferedUnitId;
-    private int lngId;
+    private String preferedUnitId;
+    private String lngId;
     private boolean darkModeOn;
 
-    public EspUserSettings(String userId, int preferedUnitId, int lngId, boolean darkModeOn) {
+    public EspUserSettings(String userId, String preferedUnitId, String lngId, boolean darkModeOn) {
         this.userId = userId;
         this.preferedUnitId = preferedUnitId;
         this.lngId = lngId;

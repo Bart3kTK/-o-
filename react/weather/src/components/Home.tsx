@@ -21,7 +21,7 @@ const HomeContainer = styled.div<{ backgroundImage: string }>`
   border-radius: 10px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
   max-width: 1000px;
-  width: 100%;
+  width: 1000px;
   text-align: center;
 `;
 

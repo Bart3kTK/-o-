@@ -12,6 +12,8 @@ import History from './components/History';
 import Settings from './components/Settings';
 import StartScreen from './components/StartScreen';
 import logo from './assets/logo.png';
+import LandingPage from './components/LandingPage';
+import SignupComponent from './components/SignUp';
 
 const NavBar = styled.nav`
   background: #274ac7;
@@ -105,6 +107,14 @@ const App: React.FC = () => {
       <Routes>
         <Route
           path="/"
+          element={<LandingPage backgroundImage="/start.jpg" />}
+        />
+        <Route
+          path="/signup"
+          element={<SignupComponent backgroundImage="/start.jpg" />}
+        />
+        <Route
+          path="/login"
           element={<StartScreen backgroundImage="/start.jpg" />}
         />
         <Route

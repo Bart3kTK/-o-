@@ -4,39 +4,24 @@ import styled from 'styled-components';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 
-const StartContainer = styled.div<{ backgroundImage: string }>`
+const SignupContainer = styled.div<{ backgroundImage: string }>`
   background-image: url(${(props) => props.backgroundImage});
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
   background-size: cover;
-  background-position: center;
+  background-color: #f5f5f5;
 `;
 
-const LoginButton = styled.button`
-  padding: 20px 40px;
-  font-size: 18px;
-  color: white;
-  background-color: #4e2f96;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  margin-top: 50px;
-  &:hover {
-    background-color: #6b3fbb;
-  }
-`;
-
-const LoginForm = styled(Form)`
+const SignupForm = styled(Form)`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   background-color: white;
   padding: 20px;
-  height: 35vh;
+  height: 40vh;
   width: 30vh;
   border-radius: 10px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
@@ -46,7 +31,7 @@ const InputField = styled.input`
   padding: 10px;
   margin-top: 20px;
   margin-bottom: 20px;
-  font-size: 25px;
+  font-size: 20px;
   border: 1px solid #ccc;
   border-radius: 5px;
   width: 100%;
@@ -57,16 +42,34 @@ const ErrorText = styled.div`
   margin-bottom: 20px;
 `;
 
+const Button = styled.button`
+  padding: 20px 40px;
+  font-size: 18px;
+  color: white;
+  background-color: #4e2f96;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 20px;
+  &:hover {
+    background-color: #6b3fbb;
+  }
+`;
+
 const validationSchema = Yup.object({
-  login: Yup.string().required('Username is required'),
+  login: Yup.string().required('login is required'),
   password: Yup.string().required('Password is required'),
+  confirmPassword: Yup.string()
+    .oneOf([Yup.ref('password')], 'Passwords must match')
+    .required('Confirm Password is required'),
 });
 
-const StartComponent: React.FC<{ backgroundImage: string }> = ({
+const SignupComponent: React.FC<{ backgroundImage: string }> = ({
   backgroundImage,
 }) => {
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleLogin = async (values: { login: string; password: string }) => {
@@ -112,15 +115,38 @@ const StartComponent: React.FC<{ backgroundImage: string }> = ({
     }
   };
 
+  const handleSignup = async (values: { login: string; password: string }) => {
+    try {
+      console.log(values);
+      const response = await fetch('http://localhost:8080/weather/users/add', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+
+        body: JSON.stringify(values),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Error: ${response.status}`);
+      }
+      handleLogin(values);
+    } catch (err: any) {
+      setError(err.message);
+    }
+  };
+
   return (
-    <StartContainer backgroundImage={backgroundImage}>
+    <SignupContainer backgroundImage={backgroundImage}>
       <Formik
-        initialValues={{ login: '', password: '' }}
+        initialValues={{ login: '', password: '', confirmPassword: '' }}
         validationSchema={validationSchema}
-        onSubmit={handleLogin}
+        onSubmit={(values) => {
+          handleSignup({ login: values.login, password: values.password });
+        }}
       >
-        {({ isSubmitting, values, handleChange }) => (
-          <LoginForm>
+        {({ isSubmitting }) => (
+          <SignupForm>
             <Field
               type="text"
               name="login"
@@ -135,15 +161,22 @@ const StartComponent: React.FC<{ backgroundImage: string }> = ({
               as={InputField}
             />
             <ErrorMessage name="password" component={ErrorText} />
-            <LoginButton type="submit" disabled={isSubmitting || loading}>
-              {loading ? 'Logging in...' : 'Login'}
-            </LoginButton>
+            <Field
+              type="password"
+              name="confirmPassword"
+              placeholder="Confirm Password"
+              as={InputField}
+            />
+            <ErrorMessage name="confirmPassword" component={ErrorText} />
+            <Button type="submit" disabled={isSubmitting}>
+              Sign Up
+            </Button>
             {error && <ErrorText>{error}</ErrorText>}
-          </LoginForm>
+          </SignupForm>
         )}
       </Formik>
-    </StartContainer>
+    </SignupContainer>
   );
 };
 
-export default StartComponent;
+export default SignupComponent;

@@ -43,17 +43,9 @@ public class UserService {
 
     private final EspUsersRepo espUsersRepo;
     private final EspUserSettingsRepo espUsersSettingsRepo;
-    private final Argon2PasswordEncoder passwordEncoder;
+    private final Argon2PasswordEncoder passwordEncoder = new Argon2PasswordEncoder(16, 32, 1, 19923, 2);
     private final EspLanguagesRepo languagesRepo;
     private final EspMeasureUnitsRepo measureUnitsRepo;
-
-    public UserService(EspUsersRepo espUsersRepo, EspUserSettingsRepo espUsersSettingsRepo,
-            EspLanguagesRepo languagesRepo, EspMeasureUnitsRepo measureUnitsRepo) {
-        this.espUsersRepo = espUsersRepo;
-        this.espUsersSettingsRepo = espUsersSettingsRepo;
-        this.languagesRepo = languagesRepo;
-        this.measureUnitsRepo = measureUnitsRepo;
-    }
 
     public EspUserSettingsDTO getUserSettings(String login) {
         EspUsers user = espUsersRepo.getUserByLogin(login);

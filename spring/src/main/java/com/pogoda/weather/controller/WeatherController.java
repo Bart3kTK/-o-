@@ -180,7 +180,7 @@ public class WeatherController {
         String token = userService.generateToken(user.getLogin());
         return ResponseEntity.ok(token);
     }
-  
+
     ////////////////////
     // UWAGA //
     // UNIT TO //

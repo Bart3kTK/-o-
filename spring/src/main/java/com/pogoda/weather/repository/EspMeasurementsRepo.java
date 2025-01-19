@@ -63,4 +63,7 @@ public class EspMeasurementsRepo {
                 dto.isRainDetected(), dto.getHumidity(), dto.getLightIntensity(), dto.getGasConcentration());
     }
 
+    public Iterable<EspMeasurements> findAll() {
+        return espMeasurementsReposytory.findAll();
+    }
 }

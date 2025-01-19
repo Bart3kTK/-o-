@@ -2,6 +2,8 @@ package com.pogoda.weather.interfaces;
 
 import org.springframework.data.repository.CrudRepository;
 import com.pogoda.weather.model.EspMeasurements;
+
+import java.time.LocalDate;
 import java.util.Optional;
 
 public interface IEspMeasurementsReposytory extends CrudRepository<EspMeasurements, String> {
@@ -20,6 +22,8 @@ public interface IEspMeasurementsReposytory extends CrudRepository<EspMeasuremen
     void delete(EspMeasurements entity);
 
     void deleteAll();
+
+    Iterable<EspMeasurements> findAll();
 
     Optional<EspMeasurements> findTopByOrderByDateDesc();
 }

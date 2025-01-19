@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class EspUserSettingsDTO {
-    private int preferedUnitId;
-    private int lngId;
+    private String unit;
+    private String language;
     private boolean darkModeOn;
 }

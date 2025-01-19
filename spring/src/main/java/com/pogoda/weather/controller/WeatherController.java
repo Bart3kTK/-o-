@@ -2,6 +2,7 @@ package com.pogoda.weather.controller;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,8 +20,6 @@ import com.pogoda.weather.model.EspMeasureUnits;
 import com.pogoda.weather.dto.EspUserDTO;
 import com.pogoda.weather.model.EspAlerts;
 import com.pogoda.weather.model.EspMeasurements;
-import com.pogoda.weather.model.EspUsers;
-import com.pogoda.weather.repository.EspAlertsRepo;
 import com.pogoda.weather.repository.EspMeasurementsRepo;
 import com.pogoda.weather.services.AlertService;
 import com.pogoda.weather.services.LanguagesService;
@@ -169,4 +168,19 @@ public class WeatherController {
         }
         return ResponseEntity.ok(userService.changePassword(user.getLogin(), user.getPassword()));
     }
+
+    @PostMapping("/users/login")
+    public ResponseEntity<String> login(@RequestBody EspUserDTO user) {
+        if (!userService.userExists(user.getLogin())) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Login does not exist");
+        }
+        boolean passwordValid = userService.passwordCheck(user.getLogin(), user.getPassword());
+        if (!passwordValid) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid password");
+        }
+
+        String token = userService.generateToken(user.getLogin());
+        return ResponseEntity.ok(token);
+    }
+
 }

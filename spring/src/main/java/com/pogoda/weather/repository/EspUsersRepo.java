@@ -22,6 +22,11 @@ public class EspUsersRepo {
                 .orElseThrow(() -> new RuntimeException("User not found with login: " + login));
     }
 
+    public String getUserPassword(String login) {
+        return espUsersRepository.findByLogin(login).map(EspUsers::getPasswordHash)
+                .orElseThrow(() -> new RuntimeException("User not found with login: " + login));
+    }
+
     public boolean userExists(String login) {
         return espUsersRepository.existsByLogin(login);
     }

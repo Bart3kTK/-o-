@@ -19,9 +19,8 @@ public class EspUserSettingsRepo {
         return espUserSettingsRepository.save(espUserSettings);
     }
 
-    public EspUserSettings getUserSettings(String userId) {
-        return espUserSettingsRepository.findByUserId(userId)
-                .orElseThrow(() -> new RuntimeException("User settings not found for userId: " + userId));
+    public Optional<EspUserSettings> getUserSettings(String userId) {
+        return espUserSettingsRepository.findByUserId(userId);
     }
 
     public void deleteUserSettings(String userId) {

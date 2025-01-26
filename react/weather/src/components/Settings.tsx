@@ -1,5 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
+import { DarkModeContext } from '../context/DarkModeContext';
+import { LanguageContext } from '../context/LanguageContext';
+import { UnitContext } from '../context/UnitContext';
 
 interface EspUserSettingsDTO {
   unit: string;
@@ -7,8 +10,9 @@ interface EspUserSettingsDTO {
   darkModeOn: boolean;
 }
 
-const SettingsContainer = styled.div`
-  background: #f5f5f5;
+const SettingsContainer = styled.div<{ darkMode: boolean }>`
+  background: ${(props) => (props.darkMode ? '#0d2782' : '#f5f5f5')};
+  color: ${(props) => (props.darkMode ? '#fff' : '#000')};
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
@@ -17,17 +21,15 @@ const SettingsContainer = styled.div`
   text-align: center;
 `;
 
-const Select = styled.select`
-  padding: 10px;
-  font-size: 16px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
+const Title = styled.h1<{ darkMode: boolean }>`
+  color: ${(props) => (props.darkMode ? '#ffcc00' : '#000')};
+  font-size: 24px;
   margin-bottom: 10px;
-  width: 100%;
 `;
 
-const Switch = styled.input`
-  margin-right: 10px;
+const Subtitle = styled.p`
+  font-size: 16px;
+  margin-bottom: 20px;
 `;
 
 const SaveButton = styled.button`
@@ -47,11 +49,43 @@ const SaveButton = styled.button`
   }
 `;
 
+const Select = styled.select<{ darkMode: boolean }>`
+  color: ${(props) => (props.darkMode ? '#ffffff' : '#000000')};
+  background: ${(props) => (props.darkMode ? '#274ac7' : '#ffffff')};
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: 1px solid ${(props) => (props.darkMode ? '#ffffff' : '#ccc')};
+  margin-bottom: 10px;
+  width: 100%;
+  box-shadow: ${(props) =>
+    props.darkMode ? '0 2px 5px rgba(255, 255, 255, 0.2)' : 'none'};
+  transition:
+    background 0.3s ease,
+    color 0.3s ease;
+
+  &:focus {
+    outline: none;
+    border-color: ${(props) => (props.darkMode ? '#ffcc00' : '#274ac7')};
+  }
+`;
+
+const Switch = styled.input<{ darkMode: boolean }>`
+  margin-right: 10px;
+  width: 20px;
+  height: 20px;
+  accent-color: ${(props) => (props.darkMode ? '#ffcc00' : '#274ac7')};
+`;
+
 const Settings: React.FC = () => {
+  const { darkMode, toggleDarkMode } = useContext(DarkModeContext);
+  const { language, setLanguage } = useContext(LanguageContext);
+  const { unit, setUnit } = useContext(UnitContext);
+
   const initialSettings: EspUserSettingsDTO = {
-    unit: 'Celsius',
-    language: 'English',
-    darkModeOn: false,
+    unit: unit,
+    language: language,
+    darkModeOn: darkMode,
   };
 
   const [settings, setSettings] = useState<EspUserSettingsDTO>(initialSettings);
@@ -61,26 +95,23 @@ const Settings: React.FC = () => {
   const loggedInUser = sessionStorage.getItem('username');
 
   useEffect(() => {
-    if (settings.darkModeOn) {
-      document.body.style.backgroundColor = '#333';
-      document.body.style.color = '#fff';
-    } else {
-      document.body.style.backgroundColor = '#fff';
-      document.body.style.color = '#000';
-    }
-  }, [settings.darkModeOn]);
+    setSettings((prev) => ({ ...prev, darkModeOn: darkMode, language, unit }));
+  }, [darkMode, language, unit]);
 
   const handleUnitChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setUnit(event.target.value);
     setSettings({ ...settings, unit: event.target.value });
   };
 
   const handleLanguageChange = (
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
+    setLanguage(event.target.value);
     setSettings({ ...settings, language: event.target.value });
   };
 
   const handleDarkModeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    toggleDarkMode(event.target.checked);
     setSettings({ ...settings, darkModeOn: event.target.checked });
   };
 
@@ -109,7 +140,8 @@ const Settings: React.FC = () => {
         throw new Error('Failed to save settings');
       }
 
-      alert('Settings saved successfully!');
+      const settingsData: EspUserSettingsDTO = await response.json();
+      setSettings(settingsData);
       setError(null);
     } catch (err: any) {
       setError(err.message);
@@ -119,46 +151,123 @@ const Settings: React.FC = () => {
   };
 
   return (
-    <SettingsContainer>
-      <h1>Settings</h1>
-      <p>Here you can configure your preferences.</p>
+    <SettingsContainer darkMode={darkMode}>
+      <Title darkMode={darkMode}>
+        {language === 'Spanish'
+          ? 'Configuraciones'
+          : language === 'Polish'
+            ? 'Ustawienia'
+            : 'Settings'}
+      </Title>
+
+      <Subtitle>
+        {language === 'Spanish'
+          ? 'Aquí puedes configurar tus preferencias.'
+          : language === 'Polish'
+            ? 'Tutaj możesz skonfigurować swoje preferencje.'
+            : 'Here you can configure your preferences.'}
+      </Subtitle>
 
       <div>
-        <label htmlFor="unit">Unit:</label>
-        <Select id="unit" value={settings.unit} onChange={handleUnitChange}>
-          <option value="Celsius">Celsius</option>
-          <option value="Fahrenheit">Fahrenheit</option>
+        <label htmlFor="unit">
+          {language === 'Spanish'
+            ? 'Unidad:'
+            : language === 'Polish'
+              ? 'Jednostka:'
+              : 'Unit:'}
+        </label>
+        <Select
+          darkMode={darkMode}
+          id="unit"
+          value={settings.unit}
+          onChange={handleUnitChange}
+        >
+          <option value="Celsius">
+            {language === 'Spanish'
+              ? 'Celsius'
+              : language === 'Polish'
+                ? 'Celsjusz'
+                : 'Celsius'}
+          </option>
+          <option value="Fahrenheit">
+            {language === 'Spanish'
+              ? 'Fahrenheit'
+              : language === 'Polish'
+                ? 'Fahrenheit'
+                : 'Fahrenheit'}
+          </option>
         </Select>
       </div>
 
       <div>
-        <label htmlFor="language">Language:</label>
+        <label htmlFor="language">
+          {language === 'Spanish'
+            ? 'Idioma:'
+            : language === 'Polish'
+              ? 'Język:'
+              : 'Language:'}
+        </label>
         <Select
+          darkMode={darkMode}
           id="language"
           value={settings.language}
           onChange={handleLanguageChange}
         >
-          <option value="English">English</option>
-          <option value="Spanish">Spanish</option>
-          <option value="French">French</option>
+          <option value="English">
+            {language === 'Spanish'
+              ? 'Inglés'
+              : language === 'Polish'
+                ? 'Angielski'
+                : 'English'}
+          </option>
+          <option value="Spanish">
+            {language === 'Spanish'
+              ? 'Español'
+              : language === 'Polish'
+                ? 'Hiszpański'
+                : 'Spanish'}
+          </option>
+          <option value="Polish">
+            {language === 'Spanish'
+              ? 'Polaco'
+              : language === 'Polish'
+                ? 'Polski'
+                : 'Polish'}
+          </option>
         </Select>
       </div>
 
       <div>
+        <Switch
+          darkMode={darkMode}
+          type="checkbox"
+          id="darkMode"
+          checked={settings.darkModeOn}
+          onChange={handleDarkModeChange}
+        />
         <label htmlFor="darkMode">
-          <Switch
-            type="checkbox"
-            id="darkMode"
-            checked={settings.darkModeOn}
-            onChange={handleDarkModeChange}
-          />
-          Dark Mode
+          {language === 'Spanish'
+            ? 'Modo oscuro'
+            : language === 'Polish'
+              ? 'Tryb ciemny'
+              : 'Dark Mode'}
         </label>
       </div>
 
-      <SaveButton onClick={handleSave} disabled={loading}>
-        {loading ? 'Saving...' : 'Save Settings'}
+      <SaveButton onClick={handleSave}>
+        {loading
+          ? language === 'Spanish'
+            ? 'Guardando...'
+            : language === 'Polish'
+              ? 'Zapisywanie...'
+              : 'Saving...'
+          : language === 'Spanish'
+            ? 'Guardar configuraciones'
+            : language === 'Polish'
+              ? 'Zapisz ustawienia'
+              : 'Save Settings'}
       </SaveButton>
+
       {error && <div>{error}</div>}
     </SettingsContainer>
   );

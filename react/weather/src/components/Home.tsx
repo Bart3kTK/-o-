@@ -1,5 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import styled from 'styled-components';
+import { LanguageContext } from '../context/LanguageContext';
+import { UnitContext } from '../context/UnitContext';
 
 interface WeatherDTO {
   pressure: number;
@@ -58,6 +60,8 @@ const NoDataMessage = styled.p`
 `;
 
 const Home: React.FC = () => {
+  const { language } = useContext(LanguageContext);
+  const { unit } = useContext(UnitContext);
   const [weatherData, setWeatherData] = useState<WeatherDTO | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -121,42 +125,102 @@ const Home: React.FC = () => {
     }
   }, [weatherData]);
 
-  const getgasConcentrationIcon = () => {
+  const getGasConcentrationIcon = () => {
     if (!weatherData) return '';
     if (weatherData.gasConcentration <= 50) return '🟢';
     if (weatherData.gasConcentration <= 100) return '🟡';
     return '🔴';
   };
 
-  if (loading) return <p>Loading...</p>;
-  if (noData)
-    return (
-      <NoDataMessage>
-        Data is currently unavailable. Please try again later.
-      </NoDataMessage>
-    );
+  const convertTemperature = (temp: number): string => {
+    if (unit === 'Fahrenheit') {
+      return ((temp * 9) / 5 + 32).toFixed(1);
+    }
+    return temp.toFixed(1);
+  };
+
+  const translations = {
+    temperature:
+      language === 'Spanish'
+        ? 'Temperatura'
+        : language === 'Polish'
+          ? 'Temperatura'
+          : 'Temperature',
+    humidity:
+      language === 'Spanish'
+        ? 'Humedad'
+        : language === 'Polish'
+          ? 'Wilgotność'
+          : 'Humidity',
+    pressure:
+      language === 'Spanish'
+        ? 'Presión'
+        : language === 'Polish'
+          ? 'Ciśnienie'
+          : 'Pressure',
+    lightIntensity:
+      language === 'Spanish'
+        ? 'Intensidad de luz'
+        : language === 'Polish'
+          ? 'Natężenie światła'
+          : 'Light Intensity',
+    gasConcentration:
+      language === 'Spanish'
+        ? 'Concentración de gas'
+        : language === 'Polish'
+          ? 'Stężenie gazu'
+          : 'Gas Concentration',
+    loading:
+      language === 'Spanish'
+        ? 'Cargando...'
+        : language === 'Polish'
+          ? 'Ładowanie...'
+          : 'Loading...',
+    noData:
+      language === 'Spanish'
+        ? 'Los datos no están disponibles. Por favor, inténtelo de nuevo más tarde.'
+        : language === 'Polish'
+          ? 'Dane są niedostępne. Spróbuj ponownie później.'
+          : 'Data is not available. Please try again later.',
+    error:
+      language === 'Spanish'
+        ? 'Error'
+        : language === 'Polish'
+          ? 'Błąd'
+          : 'Error',
+  };
+
+  if (loading) return <p>{translations.loading}</p>;
+  if (noData) return <NoDataMessage>{translations.noData}</NoDataMessage>;
 
   return (
     <HomeContainer backgroundImage={backgroundImage}>
-      {error && <p style={{ color: 'red' }}>Error: {error}</p>}{' '}
+      {error && (
+        <p style={{ color: 'red' }}>
+          {translations.error}: {error}
+        </p>
+      )}
       {weatherData && (
         <>
           <Temperature color={temperatureColor}>
-            {weatherData.temperature2}°C
+            {convertTemperature(weatherData.temperature2)}°
+            {unit === 'Fahrenheit' ? 'F' : 'C'}
           </Temperature>
           <WeatherDetails>
             <DetailItem>
-              <strong>Humidity:</strong> {weatherData.humidity}%
+              <strong>{translations.humidity}:</strong> {weatherData.humidity}%
             </DetailItem>
             <DetailItem>
-              <strong>Pressure:</strong> {weatherData.pressure} hPa
+              <strong>{translations.pressure}:</strong> {weatherData.pressure}{' '}
+              hPa
             </DetailItem>
             <DetailItem>
-              <strong>Light Intensity:</strong> {weatherData.lightIntensity} lx
+              <strong>{translations.lightIntensity}:</strong>{' '}
+              {weatherData.lightIntensity} lx
             </DetailItem>
             <DetailItem>
-              <strong>Gas Concentration:</strong> {weatherData.gasConcentration}{' '}
-              {getgasConcentrationIcon()}
+              <strong>{translations.gasConcentration}:</strong>{' '}
+              {weatherData.gasConcentration} {getGasConcentrationIcon()}
             </DetailItem>
           </WeatherDetails>
         </>

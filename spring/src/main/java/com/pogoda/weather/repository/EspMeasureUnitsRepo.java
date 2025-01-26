@@ -1,5 +1,7 @@
 package com.pogoda.weather.repository;
 
+import java.util.Optional;
+
 import org.springframework.stereotype.Repository;
 import com.pogoda.weather.interfaces.IEspMeasureUnitsRepository;
 import com.pogoda.weather.model.EspMeasureUnits;
@@ -17,14 +19,12 @@ public class EspMeasureUnitsRepo {
         return espMeasureUnitsRepository.save(espMeasureUnits);
     }
 
-    public EspMeasureUnits getUnitByUnitId(String unitId) {
-        return espMeasureUnitsRepository.findByUnitId(unitId)
-                .orElseThrow(() -> new RuntimeException("Unit not found with unitId: " + unitId));
+    public Optional<EspMeasureUnits> getUnitByUnitId(String unitId) {
+        return espMeasureUnitsRepository.findByUnitId(unitId);
     }
 
-    public EspMeasureUnits getUnitByName(String name) {
-        return espMeasureUnitsRepository.findByName(name)
-                .orElseThrow(() -> new RuntimeException("Unit not found with name: " + name));
+    public Optional<EspMeasureUnits> getUnitByName(String name) {
+        return espMeasureUnitsRepository.findByName(name);
     }
 
     public boolean unitExistsByUnitId(String unitId) {

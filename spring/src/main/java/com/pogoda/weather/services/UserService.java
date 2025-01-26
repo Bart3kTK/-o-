@@ -26,7 +26,7 @@ import com.pogoda.weather.repository.EspMeasureUnitsRepo;
 import com.pogoda.weather.repository.EspLanguagesRepo;
 import com.pogoda.weather.repository.EspUserSettingsRepo;
 import com.pogoda.weather.repository.EspUsersRepo;
-
+import java.util.Optional;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
@@ -49,52 +49,75 @@ public class UserService {
 
     public EspUserSettingsDTO getUserSettings(String login) {
         EspUsers user = espUsersRepo.getUserByLogin(login);
-        EspUserSettings userSettings = espUsersSettingsRepo.getUserSettings(user.getId());
+        Optional<EspUserSettings> userSettingsOptional = espUsersSettingsRepo.getUserSettings(user.getId());
 
-        if (userSettings != null) {
+        // Jeśli brak ustawień, zwróć wartości domyślne
+        if (!userSettingsOptional.isPresent()) {
             return new EspUserSettingsDTO("metric", "english", false);
         }
 
-        EspLanguages language = languagesRepo.getLanguageByLangId(userSettings.getLngId());
-        EspMeasureUnits measureUnit = measureUnitsRepo.getUnitByUnitId(userSettings.getPreferedUnitId());
+        EspUserSettings userSettings = userSettingsOptional.get();
 
-        return new EspUserSettingsDTO(measureUnit.getName(), language.getName(), userSettings.isDarkModeOn());
+        Optional<EspLanguages> language = languagesRepo.getLanguageByLangId(userSettings.getLngId());
+        Optional<EspMeasureUnits> measureUnit = measureUnitsRepo.getUnitByUnitId(userSettings.getPreferedUnitId());
+
+        if (!language.isPresent() || !measureUnit.isPresent()) {
+            return new EspUserSettingsDTO("C", "english", userSettings.isDarkModeOn());
+        } else {
+            return new EspUserSettingsDTO(measureUnit.get().getName(), language.get().getName(),
+                    userSettings.isDarkModeOn());
+        }
     }
 
+    // Ustawianie ustawień użytkownika
     public EspUserSettingsDTO setUserSettings(EspUserSettingsDTO userSettingsDTO, String login) {
         EspUsers user = espUsersRepo.getUserByLogin(login);
-        EspUserSettings userSettings = espUsersSettingsRepo.getUserSettings(user.getId());
+        Optional<EspUserSettings> userSettingsOptional = espUsersSettingsRepo.getUserSettings(user.getId());
 
-        if (userSettings == null) {
-            EspLanguages language = languagesRepo.getLanguageByName(userSettingsDTO.getLanguage());
-            EspMeasureUnits measureUnit = measureUnitsRepo.getUnitByName(userSettingsDTO.getUnit());
-            EspUserSettings newUserSettings = new EspUserSettings(user.getId(), language.getLangId(),
-                    measureUnit.getUnitId(), userSettingsDTO.isDarkModeOn());
-            espUsersSettingsRepo.saveUserSettings(newUserSettings);
-            return userSettingsDTO;
+        // Tworzenie nowych ustawień, jeśli brak istniejących
+        EspUserSettings userSettings;
+        if (!userSettingsOptional.isPresent()) {
+            Optional<EspLanguages> language = languagesRepo.getLanguageByName(userSettingsDTO.getLanguage());
+            if (!language.isPresent()) {
+                languagesRepo.saveLanguage(new EspLanguages(userSettingsDTO.getLanguage()));
+            }
+            language = languagesRepo.getLanguageByName(userSettingsDTO.getLanguage());
+
+            Optional<EspMeasureUnits> measureUnit = measureUnitsRepo.getUnitByName(userSettingsDTO.getUnit());
+            if (!measureUnit.isPresent()) {
+                measureUnitsRepo.saveUnit(new EspMeasureUnits(userSettingsDTO.getUnit()));
+            }
+            measureUnit = measureUnitsRepo.getUnitByName(userSettingsDTO.getUnit());
+
+            userSettings = new EspUserSettings(user.getId(), language.get().getLangId(), measureUnit.get().getUnitId(),
+                    userSettingsDTO.isDarkModeOn());
+            espUsersSettingsRepo.saveUserSettings(userSettings);
+
+        } else {
+            // Jeśli ustawienia już istnieją, aktualizuj je
+            userSettings = userSettingsOptional.get();
+
+            Optional<EspLanguages> language = languagesRepo.getLanguageByName(userSettingsDTO.getLanguage());
+            if (!language.isPresent()) {
+                languagesRepo.saveLanguage(new EspLanguages(userSettingsDTO.getLanguage()));
+            }
+
+            language = languagesRepo.getLanguageByName(userSettingsDTO.getLanguage());
+
+            Optional<EspMeasureUnits> measureUnit = measureUnitsRepo.getUnitByName(userSettingsDTO.getUnit());
+            if (!measureUnit.isPresent()) {
+                measureUnitsRepo.saveUnit(new EspMeasureUnits(userSettingsDTO.getUnit()));
+            }
+            measureUnit = measureUnitsRepo.getUnitByName(userSettingsDTO.getUnit());
+
+            userSettings.setLngId(language.get().getLangId());
+            userSettings.setPreferedUnitId(measureUnit.get().getUnitId());
+            userSettings.setDarkModeOn(userSettingsDTO.isDarkModeOn());
+            espUsersSettingsRepo.saveUserSettings(userSettings);
         }
 
-        EspLanguages language = languagesRepo.getLanguageByName(userSettingsDTO.getLanguage());
-        EspMeasureUnits measureUnit = measureUnitsRepo.getUnitByName(userSettingsDTO.getUnit());
-        userSettings.setLngId(language.getLangId());
-        userSettings.setPreferedUnitId(measureUnit.getUnitId());
-        userSettings.setDarkModeOn(userSettingsDTO.isDarkModeOn());
-        espUsersSettingsRepo.saveUserSettings(userSettings);
         return userSettingsDTO;
     }
-
-    // public EspUserSettingsDTO getUserSettings(String login) {
-    // {
-    // EspUsers user = espUsersRepo.getUserByLogin(login);
-    // EspUserSettings userSettings = espUsersSettingsRepo.getUserSettings(user.getId());
-
-    // if (userSettings != null) {
-    // // return new EspUserSettingsDTO(darkModeOn);TODO
-    // }
-
-    // return null;
-    // }
-    // }
 
     public boolean passwordCheck(String login, String password) {
         if (!userExists(login)) {

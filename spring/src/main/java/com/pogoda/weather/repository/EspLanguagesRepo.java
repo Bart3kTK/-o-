@@ -1,5 +1,7 @@
 package com.pogoda.weather.repository;
 
+import java.util.Optional;
+
 import org.springframework.stereotype.Repository;
 import com.pogoda.weather.interfaces.IEspLanguagesRepository;
 import com.pogoda.weather.model.EspLanguages;
@@ -17,14 +19,12 @@ public class EspLanguagesRepo {
         return espLanguagesRepository.save(espLanguages);
     }
 
-    public EspLanguages getLanguageByLangId(String langId) {
-        return espLanguagesRepository.findByLangId(langId)
-                .orElseThrow(() -> new RuntimeException("Language not found with langId: " + langId));
+    public Optional<EspLanguages> getLanguageByLangId(String langId) {
+        return espLanguagesRepository.findByLangId(langId);
     }
 
-    public EspLanguages getLanguageByName(String name) {
-        return espLanguagesRepository.findByName(name)
-                .orElseThrow(() -> new RuntimeException("Language not found with name: " + name));
+    public Optional<EspLanguages> getLanguageByName(String name) {
+        return espLanguagesRepository.findByName(name);
     }
 
     public Iterable<EspLanguages> getAllLanguages() {
